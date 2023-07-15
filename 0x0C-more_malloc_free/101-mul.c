@@ -1,53 +1,83 @@
 #include "main.h"
-#include <stdlib.h>
 #include <stdio.h>
-
-#define ERR_MSG "Error"
+#include <string.h>
 
 /**
- * is_digit - checks if a string contains a non-digit char
- * @s: string to be evaluated
+ * _isdigit - checks if character is digit
+ * @c: the character to check
  *
- * Return: 0 if a non-digit is found, 1 otherwise
+ * Return: 1 if digit, 0 otherwise
  */
-int is_digit(char *s)
+int _isdigit(int c)
 {
-	int i = 0;
-
-	while (s[i])
-	{
-		if (s[i] < '0' || s[i] > '9')
-			return (0);
-		i++;
-	}
-	return (1);
+	return (c >= '0' && c <= '9');
 }
 
 /**
  * _strlen - returns the length of a string
- * @s: string to evaluate
+ * @s: the string whose length to check
  *
- * Return: the length of the string
+ * Return: integer length of string
  */
 int _strlen(char *s)
 {
 	int i = 0;
 
-	while (s[i] != '\0')
-	{
+	while (*s++)
 		i++;
-	}
 	return (i);
 }
 
 /**
- * errors - handles errors for main
+ * big_multiply - multiply two big number strings
+ * @s1: the first big number string
+ * @s2: the second big number string
+ *
+ * Return: the product big number string
  */
-void errors(void)
+char *big_multiply(char *s1, char *s2)
 {
-	printf("Error\n");
-	exit(98);
+	char *r;
+	int l1, l2, a, b, c, x;
+
+	l1 = _strlen(s1);
+	l2 = _strlen(s2);
+	r = malloc(a = x = l1 + l2);
+	if (!r)
+		printf("Error\n"), exit(98);
+	while (a--)
+		r[a] = 0;
+
+	for (l1--; l1 >= 0; l1--)
+	{
+		if (!_isdigit(s1[l1]))
+		{
+			free(r);
+			printf("Error\n"), exit(98);
+		}
+		a = s1[l1] - '0';
+		c = 0;
+
+		for (l2 = _strlen(s2) - 1; l2 >= 0; l2--)
+		{
+			if (!_isdigit(s2[l2]))
+			{
+				free(r);
+				printf("Error\n"), exit(98);
+			}
+			b = s2[l2] - '0';
+
+			c += r[l1 + l2 + 1] + (a * b);
+			r[l1 + l2 + 1] = c % 10;
+
+			c /= 10;
+		}
+		if (c)
+			r[l1 + l2 + 1] += c;
+	}
+	return (r);
 }
+
 
 /**
  * main - multiply two big number strings
